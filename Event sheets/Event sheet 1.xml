@@ -1,0 +1,869 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<c2eventsheet>
+    <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
+    <name>Event sheet 1</name>
+    <events>
+        <variable constant="0" name="CutCount" sid="7318675697744567" static="0" type="number">0</variable>
+        <variable constant="0" name="FruitKind" sid="460073205383851" static="0" type="number">0</variable>
+        <variable constant="0" name="Speed" sid="3732914828084558" static="0" type="number">0</variable>
+        <variable constant="0" name="CutStength" sid="1695518879131531" static="0" type="number">1</variable>
+        <variable constant="0" name="SlashY" sid="2216604798437428" static="0" type="number">0</variable>
+        <variable constant="0" name="SlashX" sid="6300391019056561" static="0" type="number">0</variable>
+        <event-block sid="99764456752138">
+            <conditions>
+                <condition id="-2" name="On start of layout" sid="3724307922974523" type="System" />
+            </conditions>
+            <actions>
+                <action id="-9" name="Destroy" sid="185230577372599" type="Destroy" />
+                <action id="-12" name="Set group active" sid="9839014543355476" type="System">
+                    <param id="0" name="Group name">&quot;Control&quot;</param>
+                    <param id="1" name="State">1</param>
+                </action>
+                <action id="-12" name="Set group active" sid="8077781064352913" type="System">
+                    <param id="0" name="Group name">&quot;Rule&quot;</param>
+                    <param id="1" name="State">1</param>
+                </action>
+                <action id="100" name="Create local camera" sid="9985593646273624" type="MagiCam">
+                    <param id="0" name="Name">&quot;Main&quot;</param>
+                    <param id="1" name="X">LayoutWidth/2</param>
+                    <param id="2" name="Y">LayoutHeight/2</param>
+                    <param id="3" name="Scale">1</param>
+                    <param id="4" name="Active">1</param>
+                </action>
+                <action id="-9" name="Set value" sid="9508731967084413" type="System">
+                    <param id="0" name="Variable">CutCount</param>
+                    <param id="1" name="Value">0</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block sid="4273311989408513">
+            <conditions>
+                <condition id="-1" name="Every tick" sid="7545892720253393" type="System" />
+            </conditions>
+            <actions>
+                <action behavior="CustomMovement2" id="3" name="Accelerate" sid="1027633387287238" type="Fruit">
+                    <param id="0" name="Which">2</param>
+                    <param id="1" name="Acceleration">980</param>
+                </action>
+                <action id="-9" name="Set value" sid="4211817591293317" type="System">
+                    <param id="0" name="Variable">FruitKind</param>
+                    <param id="1" name="Value">int(random(0,4))</param>
+                </action>
+                <action id="0" name="Set text" sid="3965940630215878" type="Cut">
+                    <param id="0" name="Text">&quot;SLASH:&quot;&amp;CutCount</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block sid="445840662991442">
+            <conditions>
+                <condition id="3" name="On touched object" sid="8910076090538576" type="Touch">
+                    <param id="0" name="Object">Retry</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="-26" name="Restart layout" sid="2093975527137905" type="System" />
+            </actions>
+        </event-block>
+        <comment>Destroy</comment>
+        <event-block sid="2420926365322554">
+            <conditions>
+                <condition id="-11" name="For Each" sid="6327118686831255" type="System">
+                    <param id="0" name="Object">Fruit</param>
+                </condition>
+            </conditions>
+            <actions />
+            <sub-events>
+                <event-block sid="2497902553273609">
+                    <conditions>
+                        <condition id="-8" name="Compare two values" sid="511154671707554" type="System">
+                            <param id="0" name="First value">Fruit.Y</param>
+                            <param id="1" name="Comparison">4</param>
+                            <param id="2" name="Second value">810</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-9" name="Destroy" sid="2174055324813938" type="Fruit" />
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-block>
+        <event-group description="" sid="5153316836622446" title="Control">
+            <sub-events>
+                <comment>Slash Effect Setting</comment>
+                <event-block sid="8899542001534693">
+                    <conditions>
+                        <condition id="0" name="On any touch start" sid="7410863567886772" type="Touch" />
+                    </conditions>
+                    <actions>
+                        <action id="-9" name="Set value" sid="9108057772759566" type="System">
+                            <param id="0" name="Variable">SlashX</param>
+                            <param id="1" name="Value">Touch.X</param>
+                        </action>
+                        <action id="-9" name="Set value" sid="4798823280902749" type="System">
+                            <param id="0" name="Variable">SlashY</param>
+                            <param id="1" name="Value">Touch.Y</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="2046847703625979">
+                    <conditions>
+                        <condition id="2" name="Is in touch" sid="5279294432261552" type="Touch" />
+                    </conditions>
+                    <actions>
+                        <action id="-3" name="Create object" sid="8108676856670364" type="System">
+                            <param id="0" name="Object to create">Slash</param>
+                            <param id="1" name="Layer">&quot;Slash&quot;</param>
+                            <param id="2" name="X">SlashX</param>
+                            <param id="3" name="Y">SlashY</param>
+                        </action>
+                        <action id="-5" name="Set width" sid="8686377498770242" type="Slash">
+                            <param id="0" name="Width">distance(SlashX,SlashY,Touch.X,Touch.Y)</param>
+                        </action>
+                        <action id="-6" name="Set height" sid="2271676192271164" type="Slash">
+                            <param id="0" name="Height">Slash.Width/16</param>
+                        </action>
+                        <action id="-8" name="Set angle" sid="6791601453356313" type="Slash">
+                            <param id="0" name="Angle">angle(SlashX,SlashY,Touch.X,Touch.Y)</param>
+                        </action>
+                        <action id="-9" name="Set value" sid="4386224100517539" type="System">
+                            <param id="0" name="Variable">SlashX</param>
+                            <param id="1" name="Value">Touch.X</param>
+                        </action>
+                        <action id="-9" name="Set value" sid="433077474095257" type="System">
+                            <param id="0" name="Variable">SlashY</param>
+                            <param id="1" name="Value">Touch.Y</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <comment>Cut Object</comment>
+                <comment>Orange</comment>
+                <event-block collapsed="1" sid="2920726028633473">
+                    <conditions>
+                        <condition id="1" name="Is overlapping another object" sid="7869652085165244" type="Slash">
+                            <param id="0" name="Object">Orange</param>
+                        </condition>
+                        <condition id="-5" name="Compare width" sid="7038747995759015" type="Slash">
+                            <param id="0" name="Comparison">5</param>
+                            <param id="1" name="Width">Fruit.Width/2</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-10" name="Add to" sid="5793081289593691" type="System">
+                            <param id="0" name="Variable">CutCount</param>
+                            <param id="1" name="Value">1</param>
+                        </action>
+                    </actions>
+                    <sub-events>
+                        <event-block sid="5983174598047108">
+                            <conditions>
+                                <condition id="-13" name="Is between angles" sid="9078944228415455" type="Slash">
+                                    <param id="0" name="First angle">Orange.Angle+45</param>
+                                    <param id="1" name="Second angle">Orange.Angle+135</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-9" name="Destroy" sid="5900139410639555" type="Orange" />
+                                <action id="0" name="Spawn another object" sid="532680070291339" type="Orange">
+                                    <param id="0" name="Object">Orange_L</param>
+                                    <param id="1" name="Layer">&quot;Elements&quot;</param>
+                                    <param id="2" name="Image point">0</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="2" name="Set speed" sid="2517250300226035" type="Orange_L">
+                                    <param id="0" name="Which">0</param>
+                                    <param id="1" name="Speed">Slash.Width*CutStength</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="6" name="Set angle of motion" sid="8595889805452956" type="Orange_L">
+                                    <param id="0" name="Angle">Slash.Angle+90</param>
+                                </action>
+                                <action id="-8" name="Set angle" sid="9690039557615383" type="Orange_L">
+                                    <param id="0" name="Angle">Slash.Angle-90</param>
+                                </action>
+                                <action id="0" name="Spawn another object" sid="4484932070060522" type="Orange">
+                                    <param id="0" name="Object">Orange_R</param>
+                                    <param id="1" name="Layer">&quot;Elements&quot;</param>
+                                    <param id="2" name="Image point">0</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="2" name="Set speed" sid="4163561421939529" type="Orange_R">
+                                    <param id="0" name="Which">0</param>
+                                    <param id="1" name="Speed">Slash.Width*CutStength</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="6" name="Set angle of motion" sid="108950415588309" type="Orange_R">
+                                    <param id="0" name="Angle">Slash.Angle-90</param>
+                                </action>
+                                <action id="-8" name="Set angle" sid="9369371736978536" type="Orange_R">
+                                    <param id="0" name="Angle">Slash.Angle-90</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block sid="9743460899498873">
+                            <conditions>
+                                <condition id="-13" name="Is between angles" sid="913037991748893" type="Slash">
+                                    <param id="0" name="First angle">Orange.Angle+225</param>
+                                    <param id="1" name="Second angle">Orange.Angle+315</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-9" name="Destroy" sid="5579871011083374" type="Orange" />
+                                <action id="0" name="Spawn another object" sid="8387285428003887" type="Orange">
+                                    <param id="0" name="Object">Orange_L</param>
+                                    <param id="1" name="Layer">&quot;Elements&quot;</param>
+                                    <param id="2" name="Image point">0</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="2" name="Set speed" sid="1307903324734929" type="Orange_L">
+                                    <param id="0" name="Which">0</param>
+                                    <param id="1" name="Speed">Slash.Width*CutStength</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="6" name="Set angle of motion" sid="2663010520932598" type="Orange_L">
+                                    <param id="0" name="Angle">Slash.Angle-90</param>
+                                </action>
+                                <action id="-8" name="Set angle" sid="2436800889807554" type="Orange_L">
+                                    <param id="0" name="Angle">Slash.Angle+90</param>
+                                </action>
+                                <action id="0" name="Spawn another object" sid="4265201254028902" type="Orange">
+                                    <param id="0" name="Object">Orange_R</param>
+                                    <param id="1" name="Layer">&quot;Elements&quot;</param>
+                                    <param id="2" name="Image point">0</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="2" name="Set speed" sid="3311049455772787" type="Orange_R">
+                                    <param id="0" name="Which">0</param>
+                                    <param id="1" name="Speed">Slash.Width*CutStength</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="6" name="Set angle of motion" sid="6922288820495459" type="Orange_R">
+                                    <param id="0" name="Angle">Slash.Angle+90</param>
+                                </action>
+                                <action id="-8" name="Set angle" sid="6529416508932165" type="Orange_R">
+                                    <param id="0" name="Angle">Slash.Angle+90</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block sid="7402553261982285">
+                            <conditions>
+                                <condition id="-13" name="Is between angles" sid="6136448873585511" type="Slash">
+                                    <param id="0" name="First angle">Orange.Angle-45</param>
+                                    <param id="1" name="Second angle">Orange.Angle+45</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-9" name="Destroy" sid="9585234257700559" type="Orange" />
+                                <action id="0" name="Spawn another object" sid="4215109595382571" type="Orange">
+                                    <param id="0" name="Object">Orange_T</param>
+                                    <param id="1" name="Layer">&quot;Elements&quot;</param>
+                                    <param id="2" name="Image point">0</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="2" name="Set speed" sid="9063410135675659" type="Orange_T">
+                                    <param id="0" name="Which">0</param>
+                                    <param id="1" name="Speed">Slash.Width*CutStength</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="6" name="Set angle of motion" sid="4347313481978725" type="Orange_T">
+                                    <param id="0" name="Angle">Slash.Angle-90</param>
+                                </action>
+                                <action id="-8" name="Set angle" sid="9705408989781558" type="Orange_T">
+                                    <param id="0" name="Angle">Slash.Angle</param>
+                                </action>
+                                <action id="0" name="Spawn another object" sid="206303013437205" type="Orange">
+                                    <param id="0" name="Object">Orange_B</param>
+                                    <param id="1" name="Layer">&quot;Elements&quot;</param>
+                                    <param id="2" name="Image point">0</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="2" name="Set speed" sid="7720409864277402" type="Orange_B">
+                                    <param id="0" name="Which">0</param>
+                                    <param id="1" name="Speed">Slash.Width*CutStength</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="6" name="Set angle of motion" sid="1569054144764814" type="Orange_B">
+                                    <param id="0" name="Angle">Slash.Angle+90</param>
+                                </action>
+                                <action id="-8" name="Set angle" sid="2239407965925465" type="Orange_B">
+                                    <param id="0" name="Angle">Slash.Angle</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block sid="3038081877977366">
+                            <conditions>
+                                <condition id="-13" name="Is between angles" sid="160940330420249" type="Slash">
+                                    <param id="0" name="First angle">Orange.Angle+135</param>
+                                    <param id="1" name="Second angle">Orange.Angle+225</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-9" name="Destroy" sid="8719291379774912" type="Orange" />
+                                <action id="0" name="Spawn another object" sid="4525319117095643" type="Orange">
+                                    <param id="0" name="Object">Orange_T</param>
+                                    <param id="1" name="Layer">&quot;Elements&quot;</param>
+                                    <param id="2" name="Image point">0</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="2" name="Set speed" sid="9690318737301271" type="Orange_T">
+                                    <param id="0" name="Which">0</param>
+                                    <param id="1" name="Speed">Slash.Width*CutStength</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="6" name="Set angle of motion" sid="6898907432286416" type="Orange_T">
+                                    <param id="0" name="Angle">Slash.Angle+90</param>
+                                </action>
+                                <action id="-8" name="Set angle" sid="5261176912522503" type="Orange_T">
+                                    <param id="0" name="Angle">Slash.Angle+180</param>
+                                </action>
+                                <action id="0" name="Spawn another object" sid="777537568827498" type="Orange">
+                                    <param id="0" name="Object">Orange_B</param>
+                                    <param id="1" name="Layer">&quot;Elements&quot;</param>
+                                    <param id="2" name="Image point">0</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="2" name="Set speed" sid="5906177381486112" type="Orange_B">
+                                    <param id="0" name="Which">0</param>
+                                    <param id="1" name="Speed">Slash.Width*CutStength</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="6" name="Set angle of motion" sid="6515493274084222" type="Orange_B">
+                                    <param id="0" name="Angle">Slash.Angle-90</param>
+                                </action>
+                                <action id="-8" name="Set angle" sid="8285806513027906" type="Orange_B">
+                                    <param id="0" name="Angle">Slash.Angle+180</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+                <comment>Grape</comment>
+                <event-block collapsed="1" sid="7823560551547227">
+                    <conditions>
+                        <condition id="1" name="Is overlapping another object" sid="759446895924169" type="Slash">
+                            <param id="0" name="Object">Grape</param>
+                        </condition>
+                        <condition id="-5" name="Compare width" sid="618131902373414" type="Slash">
+                            <param id="0" name="Comparison">5</param>
+                            <param id="1" name="Width">Fruit.Width/2</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-10" name="Add to" sid="8335963184073689" type="System">
+                            <param id="0" name="Variable">CutCount</param>
+                            <param id="1" name="Value">1</param>
+                        </action>
+                    </actions>
+                    <sub-events>
+                        <event-block sid="7096432180503293">
+                            <conditions>
+                                <condition id="-13" name="Is between angles" sid="9790533391463108" type="Slash">
+                                    <param id="0" name="First angle">Grape.Angle+45</param>
+                                    <param id="1" name="Second angle">Grape.Angle+135</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-9" name="Destroy" sid="4591361167670227" type="Grape" />
+                                <action id="0" name="Spawn another object" sid="5328244868091941" type="Grape">
+                                    <param id="0" name="Object">Grape_L</param>
+                                    <param id="1" name="Layer">&quot;Elements&quot;</param>
+                                    <param id="2" name="Image point">0</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="2" name="Set speed" sid="6585463182429171" type="Grape_L">
+                                    <param id="0" name="Which">0</param>
+                                    <param id="1" name="Speed">Slash.Width*CutStength</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="6" name="Set angle of motion" sid="632296362339463" type="Grape_L">
+                                    <param id="0" name="Angle">Slash.Angle+90</param>
+                                </action>
+                                <action id="-8" name="Set angle" sid="7188890413039354" type="Grape_L">
+                                    <param id="0" name="Angle">Slash.Angle-90</param>
+                                </action>
+                                <action id="0" name="Spawn another object" sid="5943341306571992" type="Grape">
+                                    <param id="0" name="Object">Grape_R</param>
+                                    <param id="1" name="Layer">&quot;Elements&quot;</param>
+                                    <param id="2" name="Image point">0</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="2" name="Set speed" sid="9973068841918226" type="Grape_R">
+                                    <param id="0" name="Which">0</param>
+                                    <param id="1" name="Speed">Slash.Width*CutStength</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="6" name="Set angle of motion" sid="4602365720146039" type="Grape_R">
+                                    <param id="0" name="Angle">Slash.Angle-90</param>
+                                </action>
+                                <action id="-8" name="Set angle" sid="900564207777929" type="Grape_R">
+                                    <param id="0" name="Angle">Slash.Angle-90</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block sid="7206218769731162">
+                            <conditions>
+                                <condition id="-13" name="Is between angles" sid="1336616533515894" type="Slash">
+                                    <param id="0" name="First angle">Grape.Angle+225</param>
+                                    <param id="1" name="Second angle">Grape.Angle+315</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-9" name="Destroy" sid="4923435088010041" type="Grape" />
+                                <action id="0" name="Spawn another object" sid="5131056105462682" type="Grape">
+                                    <param id="0" name="Object">Grape_L</param>
+                                    <param id="1" name="Layer">&quot;Elements&quot;</param>
+                                    <param id="2" name="Image point">0</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="2" name="Set speed" sid="6532286596643512" type="Grape_L">
+                                    <param id="0" name="Which">0</param>
+                                    <param id="1" name="Speed">Slash.Width*CutStength</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="6" name="Set angle of motion" sid="7082758993606639" type="Grape_L">
+                                    <param id="0" name="Angle">Slash.Angle-90</param>
+                                </action>
+                                <action id="-8" name="Set angle" sid="7386747229342837" type="Grape_L">
+                                    <param id="0" name="Angle">Slash.Angle+90</param>
+                                </action>
+                                <action id="0" name="Spawn another object" sid="7944676669633491" type="Grape">
+                                    <param id="0" name="Object">Grape_R</param>
+                                    <param id="1" name="Layer">&quot;Elements&quot;</param>
+                                    <param id="2" name="Image point">0</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="2" name="Set speed" sid="1385769947450858" type="Grape_R">
+                                    <param id="0" name="Which">0</param>
+                                    <param id="1" name="Speed">Slash.Width*CutStength</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="6" name="Set angle of motion" sid="1330597822544818" type="Grape_R">
+                                    <param id="0" name="Angle">Slash.Angle+90</param>
+                                </action>
+                                <action id="-8" name="Set angle" sid="265427538138848" type="Grape_R">
+                                    <param id="0" name="Angle">Slash.Angle+90</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block sid="6059078974107568">
+                            <conditions>
+                                <condition id="-13" name="Is between angles" sid="8095024087516816" type="Slash">
+                                    <param id="0" name="First angle">Grape.Angle-45</param>
+                                    <param id="1" name="Second angle">Grape.Angle+45</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-9" name="Destroy" sid="2883346691193359" type="Grape" />
+                                <action id="0" name="Spawn another object" sid="7965834552539301" type="Grape">
+                                    <param id="0" name="Object">Grape_T</param>
+                                    <param id="1" name="Layer">&quot;Elements&quot;</param>
+                                    <param id="2" name="Image point">0</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="2" name="Set speed" sid="8405804718041567" type="Grape_T">
+                                    <param id="0" name="Which">0</param>
+                                    <param id="1" name="Speed">Slash.Width*CutStength</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="6" name="Set angle of motion" sid="339424501311661" type="Grape_T">
+                                    <param id="0" name="Angle">Slash.Angle-90</param>
+                                </action>
+                                <action id="-8" name="Set angle" sid="379581718528751" type="Grape_T">
+                                    <param id="0" name="Angle">Slash.Angle</param>
+                                </action>
+                                <action id="0" name="Spawn another object" sid="3552910755121213" type="Grape">
+                                    <param id="0" name="Object">Grape_B</param>
+                                    <param id="1" name="Layer">&quot;Elements&quot;</param>
+                                    <param id="2" name="Image point">0</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="2" name="Set speed" sid="1843924489093742" type="Grape_B">
+                                    <param id="0" name="Which">0</param>
+                                    <param id="1" name="Speed">Slash.Width*CutStength</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="6" name="Set angle of motion" sid="2782219697508814" type="Grape_B">
+                                    <param id="0" name="Angle">Slash.Angle+90</param>
+                                </action>
+                                <action id="-8" name="Set angle" sid="9317771658604895" type="Grape_B">
+                                    <param id="0" name="Angle">Slash.Angle</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block sid="1201906416811596">
+                            <conditions>
+                                <condition id="-13" name="Is between angles" sid="1231195361998319" type="Slash">
+                                    <param id="0" name="First angle">Grape.Angle+135</param>
+                                    <param id="1" name="Second angle">Grape.Angle+225</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-9" name="Destroy" sid="8629091532659537" type="Grape" />
+                                <action id="0" name="Spawn another object" sid="7958502106008868" type="Grape">
+                                    <param id="0" name="Object">Grape_T</param>
+                                    <param id="1" name="Layer">&quot;Elements&quot;</param>
+                                    <param id="2" name="Image point">0</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="2" name="Set speed" sid="619283576999435" type="Grape_T">
+                                    <param id="0" name="Which">0</param>
+                                    <param id="1" name="Speed">Slash.Width*CutStength</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="6" name="Set angle of motion" sid="9674722650355739" type="Grape_T">
+                                    <param id="0" name="Angle">Slash.Angle+90</param>
+                                </action>
+                                <action id="-8" name="Set angle" sid="9308062148970739" type="Grape_T">
+                                    <param id="0" name="Angle">Slash.Angle+180</param>
+                                </action>
+                                <action id="0" name="Spawn another object" sid="8581523694988605" type="Grape">
+                                    <param id="0" name="Object">Grape_B</param>
+                                    <param id="1" name="Layer">&quot;Elements&quot;</param>
+                                    <param id="2" name="Image point">0</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="2" name="Set speed" sid="4010647630474088" type="Grape_B">
+                                    <param id="0" name="Which">0</param>
+                                    <param id="1" name="Speed">Slash.Width*CutStength</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="6" name="Set angle of motion" sid="5956832588873794" type="Grape_B">
+                                    <param id="0" name="Angle">Slash.Angle-90</param>
+                                </action>
+                                <action id="-8" name="Set angle" sid="8773503010250396" type="Grape_B">
+                                    <param id="0" name="Angle">Slash.Angle+180</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+                <comment>Peach</comment>
+                <event-block collapsed="1" sid="6177597549030463">
+                    <conditions>
+                        <condition id="1" name="Is overlapping another object" sid="7142838976650828" type="Slash">
+                            <param id="0" name="Object">Peach</param>
+                        </condition>
+                        <condition id="-5" name="Compare width" sid="8140260417566277" type="Slash">
+                            <param id="0" name="Comparison">5</param>
+                            <param id="1" name="Width">Fruit.Width/2</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-10" name="Add to" sid="6732821632925655" type="System">
+                            <param id="0" name="Variable">CutCount</param>
+                            <param id="1" name="Value">1</param>
+                        </action>
+                    </actions>
+                    <sub-events>
+                        <event-block sid="349674248796057">
+                            <conditions>
+                                <condition id="-13" name="Is between angles" sid="5275934975083736" type="Slash">
+                                    <param id="0" name="First angle">Peach.Angle+45</param>
+                                    <param id="1" name="Second angle">Peach.Angle+135</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-9" name="Destroy" sid="2188691403004999" type="Peach" />
+                                <action id="0" name="Spawn another object" sid="9032557943072616" type="Peach">
+                                    <param id="0" name="Object">Peach_L</param>
+                                    <param id="1" name="Layer">&quot;Elements&quot;</param>
+                                    <param id="2" name="Image point">0</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="2" name="Set speed" sid="6493711294916409" type="Peach_L">
+                                    <param id="0" name="Which">0</param>
+                                    <param id="1" name="Speed">Slash.Width*CutStength</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="6" name="Set angle of motion" sid="6858476369350535" type="Peach_L">
+                                    <param id="0" name="Angle">Slash.Angle+90</param>
+                                </action>
+                                <action id="-8" name="Set angle" sid="8390595898305146" type="Peach_L">
+                                    <param id="0" name="Angle">Slash.Angle-90</param>
+                                </action>
+                                <action id="0" name="Spawn another object" sid="6004627139334633" type="Peach">
+                                    <param id="0" name="Object">Peach_R</param>
+                                    <param id="1" name="Layer">&quot;Elements&quot;</param>
+                                    <param id="2" name="Image point">0</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="2" name="Set speed" sid="724989763334353" type="Peach_R">
+                                    <param id="0" name="Which">0</param>
+                                    <param id="1" name="Speed">Slash.Width*CutStength</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="6" name="Set angle of motion" sid="6480763340341768" type="Peach_R">
+                                    <param id="0" name="Angle">Slash.Angle-90</param>
+                                </action>
+                                <action id="-8" name="Set angle" sid="2888954852704623" type="Peach_R">
+                                    <param id="0" name="Angle">Slash.Angle-90</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block sid="2085621772859898">
+                            <conditions>
+                                <condition id="-13" name="Is between angles" sid="2224227392528065" type="Slash">
+                                    <param id="0" name="First angle">Peach.Angle+225</param>
+                                    <param id="1" name="Second angle">Peach.Angle+315</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-9" name="Destroy" sid="3233010090347121" type="Peach" />
+                                <action id="0" name="Spawn another object" sid="7685265969197325" type="Peach">
+                                    <param id="0" name="Object">Peach_L</param>
+                                    <param id="1" name="Layer">&quot;Elements&quot;</param>
+                                    <param id="2" name="Image point">0</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="2" name="Set speed" sid="5194865393223492" type="Peach_L">
+                                    <param id="0" name="Which">0</param>
+                                    <param id="1" name="Speed">Slash.Width*CutStength</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="6" name="Set angle of motion" sid="8169665269800987" type="Peach_L">
+                                    <param id="0" name="Angle">Slash.Angle-90</param>
+                                </action>
+                                <action id="-8" name="Set angle" sid="7473041535939219" type="Peach_L">
+                                    <param id="0" name="Angle">Slash.Angle+90</param>
+                                </action>
+                                <action id="0" name="Spawn another object" sid="1374056898845529" type="Peach">
+                                    <param id="0" name="Object">Peach_R</param>
+                                    <param id="1" name="Layer">&quot;Elements&quot;</param>
+                                    <param id="2" name="Image point">0</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="2" name="Set speed" sid="3037010238505906" type="Peach_R">
+                                    <param id="0" name="Which">0</param>
+                                    <param id="1" name="Speed">Slash.Width*CutStength</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="6" name="Set angle of motion" sid="6598768565407918" type="Peach_R">
+                                    <param id="0" name="Angle">Slash.Angle+90</param>
+                                </action>
+                                <action id="-8" name="Set angle" sid="4147801077081131" type="Peach_R">
+                                    <param id="0" name="Angle">Slash.Angle+90</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block sid="1675316171562276">
+                            <conditions>
+                                <condition id="-13" name="Is between angles" sid="9326930408270475" type="Slash">
+                                    <param id="0" name="First angle">Peach.Angle-45</param>
+                                    <param id="1" name="Second angle">Peach.Angle+45</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-9" name="Destroy" sid="7718628797740921" type="Peach" />
+                                <action id="0" name="Spawn another object" sid="4894934365074253" type="Peach">
+                                    <param id="0" name="Object">Peach_T</param>
+                                    <param id="1" name="Layer">&quot;Elements&quot;</param>
+                                    <param id="2" name="Image point">0</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="2" name="Set speed" sid="8863546050039692" type="Peach_T">
+                                    <param id="0" name="Which">0</param>
+                                    <param id="1" name="Speed">Slash.Width*CutStength</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="6" name="Set angle of motion" sid="7974789007611003" type="Peach_T">
+                                    <param id="0" name="Angle">Slash.Angle-90</param>
+                                </action>
+                                <action id="-8" name="Set angle" sid="3093452308893744" type="Peach_T">
+                                    <param id="0" name="Angle">Slash.Angle</param>
+                                </action>
+                                <action id="0" name="Spawn another object" sid="291805791290647" type="Peach">
+                                    <param id="0" name="Object">Peach_B</param>
+                                    <param id="1" name="Layer">&quot;Elements&quot;</param>
+                                    <param id="2" name="Image point">0</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="2" name="Set speed" sid="381233950919725" type="Peach_B">
+                                    <param id="0" name="Which">0</param>
+                                    <param id="1" name="Speed">Slash.Width*CutStength</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="6" name="Set angle of motion" sid="4077511119448459" type="Peach_B">
+                                    <param id="0" name="Angle">Slash.Angle+90</param>
+                                </action>
+                                <action id="-8" name="Set angle" sid="6633559846775416" type="Peach_B">
+                                    <param id="0" name="Angle">Slash.Angle</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block sid="4954402811924992">
+                            <conditions>
+                                <condition id="-13" name="Is between angles" sid="3616098366769222" type="Slash">
+                                    <param id="0" name="First angle">Peach.Angle+135</param>
+                                    <param id="1" name="Second angle">Peach.Angle+225</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-9" name="Destroy" sid="6774405944167956" type="Peach" />
+                                <action id="0" name="Spawn another object" sid="629818315661494" type="Peach">
+                                    <param id="0" name="Object">Peach_T</param>
+                                    <param id="1" name="Layer">&quot;Elements&quot;</param>
+                                    <param id="2" name="Image point">0</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="2" name="Set speed" sid="2106504644905935" type="Peach_T">
+                                    <param id="0" name="Which">0</param>
+                                    <param id="1" name="Speed">Slash.Width*CutStength</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="6" name="Set angle of motion" sid="4793790041023856" type="Peach_T">
+                                    <param id="0" name="Angle">Slash.Angle+90</param>
+                                </action>
+                                <action id="-8" name="Set angle" sid="3558084681326042" type="Peach_T">
+                                    <param id="0" name="Angle">Slash.Angle+180</param>
+                                </action>
+                                <action id="0" name="Spawn another object" sid="1457763514408496" type="Peach">
+                                    <param id="0" name="Object">Peach_B</param>
+                                    <param id="1" name="Layer">&quot;Elements&quot;</param>
+                                    <param id="2" name="Image point">0</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="2" name="Set speed" sid="5135073973352155" type="Peach_B">
+                                    <param id="0" name="Which">0</param>
+                                    <param id="1" name="Speed">Slash.Width*CutStength</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="6" name="Set angle of motion" sid="7002090407777147" type="Peach_B">
+                                    <param id="0" name="Angle">Slash.Angle-90</param>
+                                </action>
+                                <action id="-8" name="Set angle" sid="3448685001834367" type="Peach_B">
+                                    <param id="0" name="Angle">Slash.Angle+180</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+            </sub-events>
+        </event-group>
+        <event-group description="" sid="3992878749850378" title="Rule">
+            <sub-events>
+                <comment>Dead with bomb</comment>
+                <event-block sid="263373394883872">
+                    <conditions>
+                        <condition id="1" name="Is overlapping another object" sid="497708893699911" type="Slash">
+                            <param id="0" name="Object">Bomb</param>
+                        </condition>
+                        <condition id="-5" name="Compare width" sid="1846221032076931" type="Slash">
+                            <param id="0" name="Comparison">5</param>
+                            <param id="1" name="Width">Fruit.Width/2</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-14" name="Set object time scale" sid="8372816209864563" type="System">
+                            <param id="0" name="Object">Bomb</param>
+                            <param id="1" name="Time scale">0</param>
+                        </action>
+                        <action id="-12" name="Set group active" sid="122746029125502" type="System">
+                            <param id="0" name="Group name">&quot;Rule&quot;</param>
+                            <param id="1" name="State">0</param>
+                        </action>
+                        <action id="-12" name="Set group active" sid="6467332748180954" type="System">
+                            <param id="0" name="Group name">&quot;Control&quot;</param>
+                            <param id="1" name="State">0</param>
+                        </action>
+                        <action id="400" name="Shake camera" sid="4396367971470437" type="MagiCam">
+                            <param id="0" name="Name">&quot;Main&quot;</param>
+                            <param id="1" name="Strength">50</param>
+                            <param id="2" name="Max deviation">10</param>
+                            <param id="3" name="Max zoom deviation">0.05</param>
+                            <param id="4" name="Build length">0.5</param>
+                            <param id="5" name="Drop time">2</param>
+                            <param id="6" name="Duration">3</param>
+                        </action>
+                        <action id="-16" name="Wait" sid="8796696812111631" type="System">
+                            <param id="0" name="Seconds">3</param>
+                        </action>
+                        <action id="0" name="Set text" sid="4565452007180659" type="FinalCutCount">
+                            <param id="0" name="Text">CutCount</param>
+                        </action>
+                        <action id="-3" name="Set position" sid="7343189950864259" type="FinalCutCount">
+                            <param id="0" name="X">LayoutWidth/2+80</param>
+                            <param id="1" name="Y">360</param>
+                        </action>
+                        <action id="-3" name="Set position" sid="1728965192787795" type="Sprite">
+                            <param id="0" name="X">LayoutWidth/2</param>
+                            <param id="1" name="Y">360</param>
+                        </action>
+                        <action id="-3" name="Set position" sid="4214732844539413" type="Retry">
+                            <param id="0" name="X">LayoutWidth/2</param>
+                            <param id="1" name="Y">450</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <comment>Rule-Spawn fruits</comment>
+                <event-block sid="9666049450666148">
+                    <conditions>
+                        <condition id="-6" name="Every X seconds" sid="5626249179016176" type="System">
+                            <param id="0" name="Interval (seconds)">random(0.5,1)</param>
+                        </condition>
+                    </conditions>
+                    <actions />
+                    <sub-events>
+                        <event-block sid="8360314938278948">
+                            <conditions>
+                                <condition id="-14" name="Compare variable" sid="4553301229768229" type="System">
+                                    <param id="0" name="Variable">FruitKind</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Value">1</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-3" name="Create object" sid="8170456653742284" type="System">
+                                    <param id="0" name="Object to create">Orange</param>
+                                    <param id="1" name="Layer">&quot;Elements&quot;</param>
+                                    <param id="2" name="X">random(200,1080)</param>
+                                    <param id="3" name="Y">800</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="2" name="Set speed" sid="7049620378279892" type="Orange">
+                                    <param id="0" name="Which">0</param>
+                                    <param id="1" name="Speed">-1100</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="6" name="Set angle of motion" sid="7753142168909525" type="Orange">
+                                    <param id="0" name="Angle">-90+ random(-10,10)</param>
+                                </action>
+                                <action id="-8" name="Set angle" sid="972596294911918" type="Orange">
+                                    <param id="0" name="Angle">random(0,360)</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block sid="7265745323600042">
+                            <conditions>
+                                <condition id="-14" name="Compare variable" sid="3496313311154791" type="System">
+                                    <param id="0" name="Variable">FruitKind</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Value">2</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-3" name="Create object" sid="6679384998161881" type="System">
+                                    <param id="0" name="Object to create">Grape</param>
+                                    <param id="1" name="Layer">&quot;Elements&quot;</param>
+                                    <param id="2" name="X">random(200,1080)</param>
+                                    <param id="3" name="Y">800</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="2" name="Set speed" sid="3420112451491696" type="Grape">
+                                    <param id="0" name="Which">0</param>
+                                    <param id="1" name="Speed">-1100</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="6" name="Set angle of motion" sid="2716571883191395" type="Grape">
+                                    <param id="0" name="Angle">-84.375 - random(11.25)</param>
+                                </action>
+                                <action id="-8" name="Set angle" sid="179069185938095" type="Grape">
+                                    <param id="0" name="Angle">random(0,360)</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block sid="8979127593919163">
+                            <conditions>
+                                <condition id="-14" name="Compare variable" sid="2877349120381756" type="System">
+                                    <param id="0" name="Variable">FruitKind</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Value">3</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-3" name="Create object" sid="346765665356462" type="System">
+                                    <param id="0" name="Object to create">Peach</param>
+                                    <param id="1" name="Layer">&quot;Elements&quot;</param>
+                                    <param id="2" name="X">random(200,1080)</param>
+                                    <param id="3" name="Y">800</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="2" name="Set speed" sid="6609677241578027" type="Peach">
+                                    <param id="0" name="Which">0</param>
+                                    <param id="1" name="Speed">-1100</param>
+                                </action>
+                                <action behavior="CustomMovement2" id="6" name="Set angle of motion" sid="1649277081261652" type="Peach">
+                                    <param id="0" name="Angle">-84.375 - random(11.25)</param>
+                                </action>
+                                <action id="-8" name="Set angle" sid="2686168471981191" type="Peach">
+                                    <param id="0" name="Angle">random(0,360)</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+                <comment>Rule-Spawn Bomb</comment>
+                <event-block sid="4088038982193575">
+                    <conditions>
+                        <condition id="-6" name="Every X seconds" sid="923309373960819" type="System">
+                            <param id="0" name="Interval (seconds)">random(4,6)</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-3" name="Create object" sid="5955029641380531" type="System">
+                            <param id="0" name="Object to create">Bomb</param>
+                            <param id="1" name="Layer">&quot;Elements&quot;</param>
+                            <param id="2" name="X">random(200,1080)</param>
+                            <param id="3" name="Y">800</param>
+                        </action>
+                        <action behavior="CustomMovement2" id="2" name="Set speed" sid="8953819550730191" type="Bomb">
+                            <param id="0" name="Which">0</param>
+                            <param id="1" name="Speed">-1100</param>
+                        </action>
+                        <action behavior="CustomMovement2" id="6" name="Set angle of motion" sid="7511026817217132" type="Bomb">
+                            <param id="0" name="Angle">-90+ random(-10,10)</param>
+                        </action>
+                        <action id="-8" name="Set angle" sid="4354224930609355" type="Bomb">
+                            <param id="0" name="Angle">random(0,360)</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-group>
+    </events>
+</c2eventsheet>
